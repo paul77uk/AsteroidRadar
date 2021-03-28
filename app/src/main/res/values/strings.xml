@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Asteroid Radar</string>
+
+    <string name="next_week_asteroids">View week asteroids</string>
+    <string name="today_asteroids">View today asteroids</string>
+    <string name="saved_asteroids">View saved asteroids</string>
+    <string name="close_approach_data_title">Close approach date</string>
+    <string name="absolute_magnitude_title">Absolute magnitude</string>
+    <string name="estimated_diameter_title">Estimated diameter</string>
+    <string name="relative_velocity_title">Relative velocity</string>
+    <string name="distance_from_earth_title">Distance from earth</string>
+    <string name="astronomical_unit_format">%f au</string>
+    <string name="km_unit_format">%f km</string>
+    <string name="km_s_unit_format">%f km/s</string>
+    <string name="image_of_the_day">Image of the Day</string>
+    <string name="astronomica_unit_explanation">The astronomical unit (au) is a unit of length, roughly the distance from Earth to the Sun and equal to about 150 million kilometres (93 million miles)</string>
+    <string name="astronomical_unit_explanation_button">Astronomical unit definition</string>
+    <string name="potentially_hazardous_asteroid_image">Potentially hazardous asteroid image</string>
+    <string name="not_hazardous_asteroid_image">Not hazardous asteroid image</string>
+    <string name="this_is_nasa_s_picture_of_day_showing_nothing_yet">This is NASA\'s picture of day, showing nothing yet</string>
+    <string name="nasa_picture_of_day_content_description_format">NASA\'s picture of day: %s</string>
+
+    // test
+    <string name="affirmation1">I am strong.</string>
+    <string name="affirmation2">I believe in myself.</string>
+    <string name="affirmation3">Each day is a new opportunity to grow and be a better version of myself.</string>
+    <string name="affirmation4">Every challenge in my life is an opportunity to learn from.</string>
+    <string name="affirmation5">I have so much to be grateful for.</string>
+    <string name="affirmation6">Good things are always coming into my life.</string>
+    <string name="affirmation7">New opportunities await me at every turn.</string>
+    <string name="affirmation8">I have the courage to follow my heart.</string>
+    <string name="affirmation9">Things will unfold at precisely the right time.</string>
+    <string name="affirmation10">I will be present in all the moments that this day brings.</string>
+</resources>
