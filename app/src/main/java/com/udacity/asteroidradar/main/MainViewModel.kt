@@ -18,23 +18,15 @@ class MainViewModel : ViewModel() {
     private val _photo = MutableLiveData<PictureOfDay>()
     val photo: LiveData<PictureOfDay> = _photo
 
-
-    /**
-     * Call getMarsPhotos() on init so we can display status immediately.
-     */
     init {
         getPhoto()
     }
 
-    /**
-     * Gets Mars photos information from the Mars API Retrofit service and updates the
-     * [MarsPhoto] [List] [LiveData].
-     */
     private fun getPhoto() {
         viewModelScope.launch {
             try {
                 _photo.value = PicApi.retrofitService.getPhoto()
-                _status.value = "   First Mars image URL : ${_photo.value!!.url}"
+                _status.value = "   image URL : ${_photo.value!!.url}"
             } catch (e: Exception) {
                 _status.value = "Failure: ${e.message}"
             }
