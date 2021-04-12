@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.api
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants.BASE_URL
 import com.udacity.asteroidradar.PictureOfDay
 import retrofit2.Retrofit
@@ -28,4 +29,17 @@ object PicApi {
     val retrofitService: PicApiService by lazy {
         retrofit.create(PicApiService::class.java)
     }
+    
+}
+
+interface FeedApiService {
+    @GET("neo/rest/feed?start_date=2015-09-07&end_date=2015-09-08")
+    suspend fun getFeed(@Query("api_key") apiKey: String = "G72leUEWda5TavF1K49jqAbwPEoj0oVsp0DxcYSu"): Asteroid
+}
+
+object FeedApi {
+    val retrofitService: FeedApiService by lazy {
+        retrofit.create(FeedApiService::class.java)
+    }
+
 }

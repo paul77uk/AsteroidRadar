@@ -4,29 +4,42 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.R
+import com.udacity.asteroidradar.databinding.ListItemBinding
 import com.udacity.asteroidradar.main.MainFragment
 
-class ItemAdapter(private val context: MainFragment, private val dataset: List<AffirmationTest>) :
-    RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+class ItemAdapter : ListAdapter<Asteroid, ItemAdapter.ItemViewHolder>(DiffCallback) {
 
-    class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.item_title)
+    class ItemViewHolder(private var binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+       fun bind(Asteroid: Asteroid) {
+           binding.velocity = Asteroid
+           binding.executePendingBindings()
+       }
+    }
+
+    companion object DiffCallback : DiffUtil.ItemCallback<Asteroid>() {
+
+        override fun areItemsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
+            return oldItem.relativeVelocity == newItem.relativeVelocity
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val adapterLayout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item, parent, false)
 
-        return ItemViewHolder(adapterLayout)
+        return ItemViewHolder(ListItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
-    override fun getItemCount() = dataset.size
-
     override fun onBindViewHolder(holder: ItemAdapter.ItemViewHolder, position: Int) {
-        val item = dataset[position]
-        holder.textView.text =  context.resources.getString(item.stringResourceId)
+        val item = getItem(position)
+        holder.bind(item)
     }
 
 }

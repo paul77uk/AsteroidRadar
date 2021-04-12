@@ -20,16 +20,16 @@ class MainFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val binding = FragmentMainBinding.inflate(inflater)
 
-        val myDataset = DataSourceTest().loadAffirmations()
-
-        val recyclerView = binding.asteroidRecycler
-        recyclerView.adapter = ItemAdapter(this, myDataset)
-
-        recyclerView.setHasFixedSize(true)
+//        val recyclerView = binding.asteroidRecycler
+//        recyclerView.adapter = ItemAdapter()
+//
+//        recyclerView.setHasFixedSize(true)
 
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
+
+        binding.asteroidRecycler.adapter = ItemAdapter()
 
         setHasOptionsMenu(true)
 
