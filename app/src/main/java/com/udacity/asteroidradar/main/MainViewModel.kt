@@ -20,11 +20,12 @@ class MainViewModel : ViewModel() {
     private val _photo = MutableLiveData<PictureOfDay>()
     val photo: LiveData<PictureOfDay> = _photo
 
-    private val _feed = MutableLiveData<Asteroid>()
-    val feed: LiveData<Asteroid> = _feed
+    private val _feed = MutableLiveData<List<Asteroid>>()
+    val feed: LiveData<List<Asteroid>> = _feed
 
     init {
         getPhoto()
+        getNeoFeed()
     }
 
     private fun getPhoto() {
@@ -42,7 +43,7 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _feed.value = FeedApi.retrofitService.getFeed()
-                _status.value = "   feed URL : ${_feed.value!!.relativeVelocity}"
+                _status.value = "Success"
             } catch (e: Exception) {
                 _status.value = "Failure: ${e.message}"
             }

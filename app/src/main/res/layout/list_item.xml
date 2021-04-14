@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="velocity"
+            name="asteroidFeed"
             type="com.udacity.asteroidradar.Asteroid" />
     </data>
 
@@ -15,6 +15,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
-        app:velocityText="@{velocity.relativeVelocity}" />
+        android:text="@{asteroidFeed.codename}" />
 
 </layout>

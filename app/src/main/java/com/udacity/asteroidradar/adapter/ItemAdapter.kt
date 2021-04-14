@@ -15,8 +15,8 @@ import com.udacity.asteroidradar.main.MainFragment
 class ItemAdapter : ListAdapter<Asteroid, ItemAdapter.ItemViewHolder>(DiffCallback) {
 
     class ItemViewHolder(private var binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-       fun bind(Asteroid: Asteroid) {
-           binding.velocity = Asteroid
+       fun bind(asteroid: Asteroid) {
+           binding.asteroidFeed = asteroid
            binding.executePendingBindings()
        }
     }
@@ -24,11 +24,11 @@ class ItemAdapter : ListAdapter<Asteroid, ItemAdapter.ItemViewHolder>(DiffCallba
     companion object DiffCallback : DiffUtil.ItemCallback<Asteroid>() {
 
         override fun areItemsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem === newItem
         }
 
         override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
-            return oldItem.relativeVelocity == newItem.relativeVelocity
+            return oldItem.id == newItem.id
         }
     }
 
