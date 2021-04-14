@@ -39,7 +39,7 @@ object PicApi {
 
 interface FeedApiService {
     @GET("neo/rest/v1/feed?start_date=2015-09-07&end_date=2015-09-08")
-    suspend fun getFeed(@Query("api_key") apiKey: String = "G72leUEWda5TavF1K49jqAbwPEoj0oVsp0DxcYSu"): List<Asteroid>
+    suspend fun getFeed(@Query("api_key") apiKey: String = "G72leUEWda5TavF1K49jqAbwPEoj0oVsp0DxcYSu"): String
 }
 
 object FeedApi {
