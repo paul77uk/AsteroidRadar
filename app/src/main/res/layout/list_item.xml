@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
 
@@ -9,12 +11,48 @@
             name="asteroidFeed"
             type="com.udacity.asteroidradar.Asteroid" />
     </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@{asteroidFeed.codename}"
         android:textColor="@android:color/white"
-        android:text="@{asteroidFeed.codename}" />
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="154988 (2004 XN35)"
+        tools:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{asteroidFeed.closeApproachDate}"
+        android:textColor="@color/text_grey"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_title"
+        tools:text="2021-04-15"
+        tools:textColor="@android:color/black" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:statusIcon="@{asteroidFeed.potentiallyHazardous}"
+        tools:src="@drawable/ic_status_potentially_hazardous" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </layout>
