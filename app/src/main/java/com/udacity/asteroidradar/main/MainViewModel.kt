@@ -28,6 +28,10 @@ class MainViewModel : ViewModel() {
     private val _feed = MutableLiveData<List<Asteroid>>()
     val feed: LiveData<List<Asteroid>> = _feed
 
+    private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid>()
+    val navigateToSelectedAsteroid: LiveData<Asteroid>
+        get() = _navigateToSelectedAsteroid
+
     init {
         getPhoto()
         getNeoFeed()
@@ -62,5 +66,12 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun displayPropertyDetails(asteroid: Asteroid) {
+        _navigateToSelectedAsteroid.value = asteroid
+    }
+
+    fun displayPropertyDetailsComplete() {
+        _navigateToSelectedAsteroid.value = null
+    }
 
 }
