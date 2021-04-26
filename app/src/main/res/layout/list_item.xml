@@ -8,7 +8,7 @@
 
         <variable
             name="asteroidFeed"
-            type="com.udacity.asteroidradar.Asteroid" />
+            type="com.udacity.asteroidradar.domain.Asteroid" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
