@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.udacity.asteroidradar.R
+import com.udacity.asteroidradar.database.AsteroidsDatabase
 import com.udacity.asteroidradar.databinding.FragmentDetailBinding
 
 class DetailFragment : Fragment() {
@@ -17,15 +19,20 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentDetailBinding.inflate(inflater)
+        val binding : FragmentDetailBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
+
+        val application = requireNotNull(activity).application
+
         binding.lifecycleOwner = this
 
         val asteroid = DetailFragmentArgs.fromBundle(requireArguments()).selectedAsteroid
-        val application = requireNotNull(activity).application
+
         val viewModelFactory = DetailViewModelFactory(asteroid, application)
 
-        binding.viewModel = ViewModelProvider(
+        val viewModel = ViewModelProvider(
             this, viewModelFactory).get(DetailViewModel::class.java)
+
+
 
 //        binding.asteroid = asteroid
 
