@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.main
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.udacity.asteroidradar.database.DatabaseAsteroid
 import com.udacity.asteroidradar.database.getDatabase
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.domain.PictureOfDay
@@ -32,8 +33,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val asteroidsRepository = AsteroidsRepository(database)
 
-    private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid>()
-    val navigateToSelectedAsteroid: LiveData<Asteroid>
+    private val _navigateToSelectedAsteroid = MutableLiveData<DatabaseAsteroid>()
+    val navigateToSelectedAsteroid: LiveData<DatabaseAsteroid>
         get() = _navigateToSelectedAsteroid
 
     init {
@@ -75,7 +76,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 //        }
 //    }
 
-    fun displayPropertyDetails(asteroid: Asteroid) {
+    fun displayPropertyDetails(asteroid: DatabaseAsteroid) {
         _navigateToSelectedAsteroid.value = asteroid
     }
 
