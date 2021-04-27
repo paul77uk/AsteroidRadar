@@ -33,8 +33,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val asteroidsRepository = AsteroidsRepository(database)
 
-    private val _navigateToSelectedAsteroid = MutableLiveData<DatabaseAsteroid>()
-    val navigateToSelectedAsteroid: LiveData<DatabaseAsteroid>
+    private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid>()
+    val navigateToSelectedAsteroid: LiveData<Asteroid>
         get() = _navigateToSelectedAsteroid
 
     init {
@@ -76,7 +76,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 //        }
 //    }
 
-    fun displayPropertyDetails(asteroid: DatabaseAsteroid) {
+    fun displayPropertyDetails(asteroid: Asteroid) {
         _navigateToSelectedAsteroid.value = asteroid
     }
 
