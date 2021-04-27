@@ -2,11 +2,14 @@ package com.udacity.asteroidradar.repository
 
 import android.net.Network
 import android.provider.MediaStore
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.udacity.asteroidradar.database.AsteroidsDatabase
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.network.FeedApi
+import com.udacity.asteroidradar.network.asDatabaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -35,10 +38,14 @@ fun List<DatabaseAsteroid>.asDomainModel(): List<Asteroid> {
 
 class AsteroidsRepository(private val database: AsteroidsDatabase) {
 
+    val asteroids: LiveData<List<Asteroid>> = Transformations.map(database.asteroidDao.getAsteroids()) {
+        it.asDomainModel()
+    }
+
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO){
-            val feed = FeedApi.retrofitService.getFeed()
-            database.asteroidDao.insertAll(feed.asDatabaseModel())
+            val feed = FeedApi.retrofitService.getFeed().await()
+            database.asteroidDao.insertAll(*feed.asDatabaseModel())
         }
     }
 }

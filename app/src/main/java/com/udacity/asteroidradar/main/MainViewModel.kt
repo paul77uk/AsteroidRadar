@@ -1,20 +1,21 @@
 package com.udacity.asteroidradar.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
+import com.udacity.asteroidradar.database.getDatabase
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.domain.PictureOfDay
 import com.udacity.asteroidradar.network.FeedApi
 import com.udacity.asteroidradar.network.PicApi
+import com.udacity.asteroidradar.network.asDomainModel
 import com.udacity.asteroidradar.network.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.repository.AsteroidsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
     // The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<String>()
 
@@ -24,8 +25,12 @@ class MainViewModel : ViewModel() {
     private val _photo = MutableLiveData<PictureOfDay>()
     val photo: LiveData<PictureOfDay> = _photo
 
-    private val _feed = MutableLiveData<List<Asteroid>>()
-    val feed: LiveData<List<Asteroid>> = _feed
+//    private val _feed = MutableLiveData<List<Asteroid>>()
+//    val feed: LiveData<List<Asteroid>> = _feed
+
+    private val database = getDatabase(application)
+
+    private val asteroidsRepository = AsteroidsRepository(database)
 
     private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid>()
     val navigateToSelectedAsteroid: LiveData<Asteroid>
@@ -33,8 +38,13 @@ class MainViewModel : ViewModel() {
 
     init {
         getPhoto()
-        getNeoFeed()
+//        getNeoFeed()
+        viewModelScope.launch {
+            asteroidsRepository.refreshAsteroids()
+        }
     }
+
+    val feed = asteroidsRepository.asteroids
 
     private fun getPhoto() {
         viewModelScope.launch {
@@ -50,20 +60,20 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    private fun getNeoFeed() {
-        viewModelScope.launch {
-            try {
-                val result = withContext(Dispatchers.IO) {
-                    FeedApi.retrofitService.getFeed()
-                }
-                val asteroids = parseAsteroidsJsonResult(JSONObject(result))
-                _feed.value = asteroids
-                _status.value = "Success"
-            } catch (e: Exception) {
-                _status.value = "Failure: ${e.message}"
-            }
-        }
-    }
+//    private fun getNeoFeed() {
+//        viewModelScope.launch {
+//            try {
+//                val result = withContext(Dispatchers.IO) {
+//                    FeedApi.retrofitService.getFeed().await()
+//                }
+////                val asteroids = parseAsteroidsJsonResult(JSONObject(result))
+//                _feed.postValue(result.asDomainModel())
+//                _status.value = "Success"
+//            } catch (e: Exception) {
+//                _status.value = "Failure: ${e.message}"
+//            }
+//        }
+//    }
 
     fun displayPropertyDetails(asteroid: Asteroid) {
         _navigateToSelectedAsteroid.value = asteroid
