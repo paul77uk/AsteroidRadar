@@ -3,7 +3,6 @@ package com.udacity.asteroidradar.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.udacity.asteroidradar.repository.DatabaseAsteroid
 
 @Dao
 interface AsteroidDao {
@@ -12,7 +11,7 @@ interface AsteroidDao {
     fun getAsteroids(): LiveData<List<DatabaseAsteroid>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg asteroids: DatabaseAsteroid)
+    fun insertAll(asteroids: List<DatabaseAsteroid>)
 }
 
 @Database(entities = [DatabaseAsteroid::class], version = 1)

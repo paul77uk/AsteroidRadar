@@ -1,22 +1,24 @@
 package com.udacity.asteroidradar.main
 
 import android.app.Application
-import androidx.lifecycle.*
-import com.udacity.asteroidradar.database.DatabaseAsteroid
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.database.getDatabase
 import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.domain.PictureOfDay
-import com.udacity.asteroidradar.network.FeedApi
 import com.udacity.asteroidradar.network.PicApi
-import com.udacity.asteroidradar.network.asDomainModel
-import com.udacity.asteroidradar.network.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.repository.AsteroidsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class MainViewModel(application: Application) : AndroidViewModel(application){
+
+    private val database = getDatabase(application)
+    private val asteroidsRepository = AsteroidsRepository(database)
+
     // The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<String>()
 
@@ -29,17 +31,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 //    private val _feed = MutableLiveData<List<Asteroid>>()
 //    val feed: LiveData<List<Asteroid>> = _feed
 
-    private val database = getDatabase(application)
-
-    private val asteroidsRepository = AsteroidsRepository(database)
-
     private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid>()
     val navigateToSelectedAsteroid: LiveData<Asteroid>
         get() = _navigateToSelectedAsteroid
 
     init {
         getPhoto()
-//        getNeoFeed()
         viewModelScope.launch {
             asteroidsRepository.refreshAsteroids()
         }
@@ -65,10 +62,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 //        viewModelScope.launch {
 //            try {
 //                val result = withContext(Dispatchers.IO) {
-//                    FeedApi.retrofitService.getFeed().await()
+//                    FeedApi.retrofitService.getFeed()
 //                }
-////                val asteroids = parseAsteroidsJsonResult(JSONObject(result))
-//                _feed.postValue(result.asDomainModel())
+//                val asteroids = parseAsteroidsJsonResult(JSONObject(result))
+//                _feed.value = asteroids
 //                _status.value = "Success"
 //            } catch (e: Exception) {
 //                _status.value = "Failure: ${e.message}"
