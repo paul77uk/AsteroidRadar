@@ -1,15 +1,12 @@
 package com.udacity.asteroidradar.repository
 
-import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.udacity.asteroidradar.database.AsteroidsDatabase
 import com.udacity.asteroidradar.database.asDomainModel
 import com.udacity.asteroidradar.domain.Asteroid
+import com.udacity.asteroidradar.domain.asDatabaseModel
 import com.udacity.asteroidradar.network.FeedApi
-import com.udacity.asteroidradar.network.asDatabaseModel
 import com.udacity.asteroidradar.network.parseAsteroidsJsonResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -40,15 +37,16 @@ import org.json.JSONObject
 
 class AsteroidsRepository(private val database: AsteroidsDatabase) {
 
-    val asteroids: LiveData<List<Asteroid>> = Transformations.map(database.asteroidDao.getAsteroids()) {
-        it.asDomainModel()
-    }
+    val asteroids: LiveData<List<Asteroid>> =
+        Transformations.map(database.asteroidDao.getAsteroids()) {
+            it.asDomainModel()
+        }
 
     suspend fun refreshAsteroids() {
-        withContext(Dispatchers.IO){
-            val feed = FeedApi.retrofitService.getFeedAsync().await()
-//            parseAsteroidsJsonResult(JSONObject(feed.toString()))
-            database.asteroidDao.insertAll(feed.asDatabaseModel())
+        withContext(Dispatchers.IO) {
+            val feed = FeedApi.retrofitService.getFeedAsync()
+            val parsedFeed = parseAsteroidsJsonResult(JSONObject(feed))
+            database.asteroidDao.insertAll(parsedFeed.asDatabaseModel())
         }
     }
 }

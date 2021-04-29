@@ -14,11 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainViewModel(application: Application) : AndroidViewModel(application){
-
-    private val database = getDatabase(application)
-    private val asteroidsRepository = AsteroidsRepository(database)
-
+class MainViewModel(application: Application) : AndroidViewModel(application) {
     // The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<String>()
 
@@ -31,12 +27,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
 //    private val _feed = MutableLiveData<List<Asteroid>>()
 //    val feed: LiveData<List<Asteroid>> = _feed
 
+    private val database = getDatabase(application)
+
+    private val asteroidsRepository = AsteroidsRepository(database)
+
     private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid>()
     val navigateToSelectedAsteroid: LiveData<Asteroid>
         get() = _navigateToSelectedAsteroid
 
     init {
         getPhoto()
+//        getNeoFeed()
         viewModelScope.launch {
             asteroidsRepository.refreshAsteroids()
         }
@@ -58,15 +59,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application){
         }
     }
 
-
 //    private fun getNeoFeed() {
 //        viewModelScope.launch {
 //            try {
 //                val result = withContext(Dispatchers.IO) {
-//                    FeedApi.retrofitService.getFeed()
+//                    FeedApi.retrofitService.getFeed().await()
 //                }
-//                val asteroids = parseAsteroidsJsonResult(JSONObject(result))
-//                _feed.value = asteroids
+////                val asteroids = parseAsteroidsJsonResult(JSONObject(result))
+//                _feed.postValue(result.asDomainModel())
 //                _status.value = "Success"
 //            } catch (e: Exception) {
 //                _status.value = "Failure: ${e.message}"
