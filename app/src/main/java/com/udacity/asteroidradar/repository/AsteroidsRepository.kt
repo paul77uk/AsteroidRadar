@@ -46,7 +46,7 @@ class AsteroidsRepository(private val database: AsteroidsDatabase) {
 
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO){
-            val feed = FeedApi.retrofitService.getFeedAsync()
+            val feed = FeedApi.retrofitService.getFeedAsync().await()
 //            parseAsteroidsJsonResult(JSONObject(feed.toString()))
             database.asteroidDao.insertAll(feed.asDatabaseModel())
         }
