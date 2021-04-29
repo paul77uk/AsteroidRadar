@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.database.AsteroidsDatabase
@@ -44,9 +45,13 @@ class AsteroidsRepository(private val database: AsteroidsDatabase) {
 
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO) {
-            val feed = FeedApi.retrofitService.getFeedAsync()
-            val parsedFeed = parseAsteroidsJsonResult(JSONObject(feed))
-            database.asteroidDao.insertAll(parsedFeed.asDatabaseModel())
+           try {
+                val feed = FeedApi.retrofitService.getFeedAsync()
+                val parsedFeed = parseAsteroidsJsonResult(JSONObject(feed))
+                database.asteroidDao.insertAll(parsedFeed.asDatabaseModel())
+            } catch (e: Exception) {
+               Log.w("ERROR", e.message.toString())
+            }
         }
     }
 }

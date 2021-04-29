@@ -43,7 +43,7 @@ object PicApi {
 interface FeedApiService {
 
     @GET("neo/rest/v1/feed")
-    fun getFeedAsync(@Query("api_key") apiKey: String = "G72leUEWda5TavF1K49jqAbwPEoj0oVsp0DxcYSu"): String
+    suspend fun getFeedAsync(@Query("api_key") apiKey: String = "G72leUEWda5TavF1K49jqAbwPEoj0oVsp0DxcYSu"): String
 }
 
 object FeedApi {

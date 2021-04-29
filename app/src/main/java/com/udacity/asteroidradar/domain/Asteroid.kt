@@ -12,17 +12,17 @@ data class Asteroid(
     val isPotentiallyHazardous: Boolean
 ) : Parcelable {
     fun asDatabaseModel(): DatabaseAsteroid {
-    return DatabaseAsteroid(
-        id = id,
-        codename = codename,
-        closeApproachDate = closeApproachDate,
-        absoluteMagnitude = absoluteMagnitude,
-        estimatedDiameter = estimatedDiameter,
-        relativeVelocity = relativeVelocity,
-        distanceFromEarth = distanceFromEarth,
-        isPotentiallyHazardous = isPotentiallyHazardous
-    )
-}
+        return DatabaseAsteroid(
+            id = id,
+            codename = codename,
+            closeApproachDate = closeApproachDate,
+            absoluteMagnitude = absoluteMagnitude,
+            estimatedDiameter = estimatedDiameter,
+            relativeVelocity = relativeVelocity,
+            distanceFromEarth = distanceFromEarth,
+            isPotentiallyHazardous = isPotentiallyHazardous
+        )
+    }
 }
 
 //Extend the network/app model to database model

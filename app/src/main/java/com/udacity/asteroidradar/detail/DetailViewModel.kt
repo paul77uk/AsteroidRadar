@@ -1,12 +1,10 @@
 package com.udacity.asteroidradar.detail
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.udacity.asteroidradar.database.getDatabase
 import com.udacity.asteroidradar.domain.Asteroid
+import com.udacity.asteroidradar.main.MainViewModel
 import com.udacity.asteroidradar.repository.AsteroidsRepository
 import kotlinx.coroutines.launch
 
@@ -21,9 +19,13 @@ class DetailViewModel(asteroid: Asteroid, app: Application) : AndroidViewModel(a
         get() = _selectedAsteroid
 
     init {
-        _selectedAsteroid.value = asteroid
         viewModelScope.launch {
             asteroidsRepository.refreshAsteroids()
         }
+        _selectedAsteroid.value = asteroid
+
     }
+
+    val feed = asteroidsRepository.asteroids
+
 }

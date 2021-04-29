@@ -32,9 +32,8 @@ class DetailFragment : Fragment() {
         val viewModel = ViewModelProvider(
             this, viewModelFactory).get(DetailViewModel::class.java)
 
-//        binding. = viewModel
 
-//        binding.asteroid = asteroid
+        binding.asteroid = viewModel
 
         binding.helpButton.setOnClickListener {
             displayAstronomicalUnitExplanationDialog()
