@@ -24,9 +24,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _photo = MutableLiveData<PictureOfDay>()
     val photo: LiveData<PictureOfDay> = _photo
 
-//    private val _feed = MutableLiveData<List<Asteroid>>()
-//    val feed: LiveData<List<Asteroid>> = _feed
-
     private val database = getDatabase(application)
 
     private val asteroidsRepository = AsteroidsRepository(database)
@@ -37,7 +34,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         getPhoto()
-//        getNeoFeed()
         viewModelScope.launch {
             asteroidsRepository.refreshAsteroids()
         }
@@ -58,21 +54,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-
-//    private fun getNeoFeed() {
-//        viewModelScope.launch {
-//            try {
-//                val result = withContext(Dispatchers.IO) {
-//                    FeedApi.retrofitService.getFeed().await()
-//                }
-////                val asteroids = parseAsteroidsJsonResult(JSONObject(result))
-//                _feed.postValue(result.asDomainModel())
-//                _status.value = "Success"
-//            } catch (e: Exception) {
-//                _status.value = "Failure: ${e.message}"
-//            }
-//        }
-//    }
 
     fun displayPropertyDetails(asteroid: Asteroid) {
         _navigateToSelectedAsteroid.value = asteroid

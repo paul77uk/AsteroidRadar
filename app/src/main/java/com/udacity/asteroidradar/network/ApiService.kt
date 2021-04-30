@@ -3,6 +3,7 @@ package com.udacity.asteroidradar.network
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.udacity.asteroidradar.Constants.API_KEY
 import com.udacity.asteroidradar.Constants.BASE_URL
 import com.udacity.asteroidradar.domain.PictureOfDay
 import kotlinx.coroutines.Deferred
@@ -31,7 +32,7 @@ private val retrofit2 = Retrofit.Builder()
 interface PicApiService {
 
     @GET("planetary/apod")
-    suspend fun getPhoto(@Query("api_key") apiKey: String = "G72leUEWda5TavF1K49jqAbwPEoj0oVsp0DxcYSu"): PictureOfDay
+    suspend fun getPhoto(@Query("api_key") apiKey: String = API_KEY): PictureOfDay
 }
 
 object PicApi {
@@ -43,7 +44,7 @@ object PicApi {
 interface FeedApiService {
 
     @GET("neo/rest/v1/feed")
-    suspend fun getFeedAsync(@Query("api_key") apiKey: String = "G72leUEWda5TavF1K49jqAbwPEoj0oVsp0DxcYSu"): String
+    suspend fun getFeedAsync(@Query("api_key") apiKey: String = API_KEY): String
 }
 
 object FeedApi {

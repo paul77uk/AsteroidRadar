@@ -13,29 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
-//@Entity
-//data class DatabaseAsteroid constructor(
-//    @PrimaryKey
-//    val id: Long, val codename: String, val closeApproachDate: String,
-//    val absoluteMagnitude: Double, val estimatedDiameter: Double,
-//    val relativeVelocity: Double, val distanceFromEarth: Double,
-//    val isPotentiallyHazardous: Boolean)
-//
-//fun List<DatabaseAsteroid>.asDomainModel(): List<Asteroid> {
-//    return map {
-//        Asteroid(
-//            id = it.id,
-//            codename = it.codename,
-//            closeApproachDate = it.closeApproachDate,
-//            absoluteMagnitude = it.absoluteMagnitude,
-//            estimatedDiameter = it.estimatedDiameter,
-//            relativeVelocity = it.relativeVelocity,
-//            distanceFromEarth = it.distanceFromEarth,
-//            isPotentiallyHazardous = it.isPotentiallyHazardous
-//        )
-//    }
-//}
-
 class AsteroidsRepository(private val database: AsteroidsDatabase) {
 
     val asteroids: LiveData<List<Asteroid>> =
@@ -45,12 +22,12 @@ class AsteroidsRepository(private val database: AsteroidsDatabase) {
 
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO) {
-           try {
+            try {
                 val feed = FeedApi.retrofitService.getFeedAsync()
                 val parsedFeed = parseAsteroidsJsonResult(JSONObject(feed))
                 database.asteroidDao.insertAll(parsedFeed.asDatabaseModel())
             } catch (e: Exception) {
-               Log.w("ERROR", e.message.toString())
+                Log.w("ERROR", e.message.toString())
             }
         }
     }
