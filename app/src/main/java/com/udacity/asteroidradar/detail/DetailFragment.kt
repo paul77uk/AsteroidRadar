@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.database.AsteroidsDatabase
 import com.udacity.asteroidradar.databinding.FragmentDetailBinding
+import kotlinx.android.synthetic.main.list_item.*
 
 class DetailFragment : Fragment() {
     override fun onCreateView(
@@ -37,6 +38,8 @@ class DetailFragment : Fragment() {
 
         binding.helpButton.setOnClickListener {
             displayAstronomicalUnitExplanationDialog()
+            binding.helpButton.contentDescription =
+                context?.getString(R.string.astronomica_unit_explanation)
         }
 
         return binding.root
