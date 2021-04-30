@@ -25,7 +25,6 @@ data class Asteroid(
     }
 }
 
-//Extend the network/app model to database model
 fun List<Asteroid>.asDatabaseModel(): List<DatabaseAsteroid> {
     return map {
         it.asDatabaseModel()
